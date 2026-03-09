@@ -108,10 +108,10 @@
   .hero-burn-inner {
     display: inline-flex;
     align-items: center;
-    gap: 18px;
-    padding: 18px 36px;
-    background: rgba(232,97,10,0.08);
-    border: 1px solid rgba(232,97,10,0.45);
+    gap: 22px;
+    padding: 24px 48px;
+    background: rgba(232,97,10,0.09);
+    border: 1px solid rgba(232,97,10,0.5);
     position: relative;
     clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
     overflow: hidden;
@@ -121,12 +121,12 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center bottom, rgba(232,97,10,0.18) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center bottom, rgba(232,97,10,0.2) 0%, transparent 70%);
     pointer-events: none;
   }
 
   .hero-burn-flame {
-    font-size: 2.4rem;
+    font-size: 3rem;
     animation: fire-flicker 0.8s ease-in-out infinite alternate;
     flex-shrink: 0;
   }
@@ -135,39 +135,51 @@
 
   .hero-burn-label {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
     color: var(--fire-orange);
     text-transform: uppercase;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
   }
 
   .hero-burn-number {
     font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-size: clamp(2rem, 6vw, 3.2rem);
     font-weight: 900;
     background: linear-gradient(135deg, #ffd580, #f5a623, #e8610a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     line-height: 1.1;
-    min-width: 180px;
+    min-width: 220px;
+    filter: drop-shadow(0 0 12px rgba(245,166,35,0.35));
   }
 
   .hero-burn-usd {
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.82rem;
+    font-size: 0.92rem;
+    color: #c8b89a;
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-burn-token-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
     color: var(--muted);
+    letter-spacing: 0.12em;
     margin-top: 2px;
   }
 
   .hero-burn-pulse {
-    width: 8px; height: 8px;
+    width: 9px; height: 9px;
     border-radius: 50%;
     background: var(--fire-orange);
     box-shadow: 0 0 10px var(--fire-orange), 0 0 20px rgba(232,97,10,0.5);
     animation: pulse-dot 1.2s ease-in-out infinite;
     flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 6px;
   }
 
   /* HERO */
@@ -215,21 +227,20 @@
 
   .hero-title {
     font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(3rem, 10vw, 8rem);
+    font-size: clamp(2.8rem, 9vw, 6.5rem);
     font-weight: 900;
-    line-height: 0.9;
+    line-height: 0.95;
     margin-bottom: 20px;
-    background: linear-gradient(180deg, #ffd580 0%, #f5a623 30%, #e8610a 65%, #c0392b 100%);
+    background: linear-gradient(180deg, #ffd580 0%, #f5a623 35%, #e8610a 70%, #c0392b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 0 40px rgba(232,97,10,0.4));
-    animation: title-burn 4s ease-in-out infinite;
+    animation: title-burn 5s ease-in-out infinite;
   }
 
   @keyframes title-burn {
-    0%, 100% { filter: drop-shadow(0 0 30px rgba(232,97,10,0.35)); }
-    50% { filter: drop-shadow(0 0 60px rgba(232,97,10,0.7)) drop-shadow(0 0 100px rgba(245,166,35,0.3)); }
+    0%, 100% { filter: drop-shadow(0 0 18px rgba(232,97,10,0.25)); }
+    50% { filter: drop-shadow(0 0 36px rgba(232,97,10,0.45)) drop-shadow(0 0 60px rgba(245,166,35,0.15)); }
   }
 
   .hero-subtitle {
@@ -847,16 +858,10 @@
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-badge">
-    <svg width="16" height="16" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px;">
-      <circle cx="16" cy="16" r="16" fill="#002D74"/>
-      <path d="M16 5L27 11.5V18L21.5 21.25L16 24.5L10.5 21.25L5 18V11.5L16 5Z" fill="#1199FA"/>
-      <path d="M16 8.5L23.5 12.75V17.25L16 21.5L8.5 17.25V12.75L16 8.5Z" fill="#002D74"/>
-      <path d="M16 11.5L20.5 14V19L16 21.5L11.5 19V14L16 11.5Z" fill="#1199FA" opacity="0.7"/>
-      <path d="M16 14L18.5 15.5V18.5L16 20L13.5 18.5V15.5L16 14Z" fill="white" opacity="0.9"/>
-    </svg>
+    <img src="https://cryptologos.cc/logos/cronos-cro-logo.png" width="18" height="18" alt="Cronos" style="margin-right:8px;border-radius:50%;vertical-align:middle;" onerror="this.src='https://assets.coingecko.com/coins/images/7310/small/cro_token_logo.png'">
     Live on Cronos · Deflationary
   </div>
-  <h1 class="hero-title">$DUSDCro</h1>
+  <h1 class="hero-title">DUSDCro</h1>
   <p class="hero-subtitle">Deflationary DUSD on Cronos</p>
   <p class="hero-tagline">
     While the <span>Dollar inflates</span>, $DUSDCro <span>Deflates</span>.<br>
@@ -870,7 +875,8 @@
       <div class="hero-burn-data">
         <div class="hero-burn-label">Total Burned Forever</div>
         <div class="hero-burn-number" id="hero-burn-amount">—</div>
-        <div class="hero-burn-usd" id="hero-burn-usd">≈ $—</div>
+        <div class="hero-burn-token-label">$DUSDCro tokens sent to 0xdead</div>
+        <div class="hero-burn-usd" id="hero-burn-usd">≈ $— USD value burned</div>
       </div>
       <div class="hero-burn-pulse"></div>
     </div>
