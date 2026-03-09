@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>$DUSDCro — Deflationary DUSD on Cronos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fire-gold: #f5a623;
+    --fire-orange: #e8610a;
+    --fire-red: #c0392b;
+    --ember: #ff6b1a;
+    --ash: #1a1a1a;
+    --smoke: #0d0d0d;
+    --charcoal: #111111;
+    --text: #f0e6d3;
+    --muted: #8a7a68;
+    --green: #00e676;
+    --red: #ff3d00;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: #080808;
+    color: var(--text);
+    font-family: 'Cinzel', serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* FIRE PARTICLES */
+  #fire-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.25;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    background: linear-gradient(180deg, rgba(8,8,8,0.97) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(245,166,35,0.12);
+  }
+
+  .nav-logo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #f5a623, #e8610a, #f5a623);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--fire-gold); }
+
+  .nav-social { display: flex; gap: 12px; }
+  .nav-social a {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 4px;
+    color: var(--fire-gold);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .nav-social a:hover {
+    background: rgba(245,166,35,0.15);
+    border-color: var(--fire-gold);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 20px 60px;
+    z-index: 1;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 80%, rgba(232,97,10,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(192,57,43,0.25) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 50% at 50% 50%, rgba(245,166,35,0.06) 0%, transparent 80%);
+    z-index: -1;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid rgba(245,166,35,0.4);
+    border-radius: 2px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--fire-gold);
+    margin-bottom: 28px;
+    background: rgba(245,166,35,0.06);
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(245,166,35,0.2); }
+    50% { box-shadow: 0 0 24px rgba(245,166,35,0.5), 0 0 48px rgba(232,97,10,0.2); }
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(3rem, 10vw, 8rem);
+    font-weight: 900;
+    line-height: 0.9;
+    margin-bottom: 20px;
+    background: linear-gradient(180deg, #ffd580 0%, #f5a623 30%, #e8610a 65%, #c0392b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(232,97,10,0.4));
+    animation: title-burn 4s ease-in-out infinite;
+  }
+
+  @keyframes title-burn {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(232,97,10,0.35)); }
+    50% { filter: drop-shadow(0 0 60px rgba(232,97,10,0.7)) drop-shadow(0 0 100px rgba(245,166,35,0.3)); }
+  }
+
+  .hero-subtitle {
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .hero-tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: clamp(0.85rem, 2vw, 1.1rem);
+    color: #d4b896;
+    margin-bottom: 50px;
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  .hero-tagline span { color: var(--fire-gold); }
+
+  .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 70px; }
+
+  .btn-primary {
+    padding: 14px 36px;
+    background: linear-gradient(135deg, #e8610a, #c0392b);
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.25s;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #f5a623, #e8610a);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(232,97,10,0.5);
+  }
+
+  .btn-secondary {
+    padding: 14px 36px;
+    background: transparent;
+    color: var(--fire-gold);
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid rgba(245,166,35,0.5);
+    cursor: pointer;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover {
+    background: rgba(245,166,35,0.1);
+    border-color: var(--fire-gold);
+    transform: translateY(-2px);
+  }
+
+  /* CONTRACT ADDRESS */
+  .ca-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(245,166,35,0.05);
+    border: 1px solid rgba(245,166,35,0.2);
+    padding: 12px 20px;
+    border-radius: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .ca-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--fire-gold);
+    text-transform: uppercase;
+  }
+  .ca-addr {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: #ccc;
+    word-break: break-all;
+  }
+  .ca-copy {
+    background: none;
+    border: 1px solid rgba(245,166,35,0.3);
+    color: var(--fire-gold);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .ca-copy:hover { background: rgba(245,166,35,0.15); }
+
+  /* STATS TICKER */
+  .stats-bar {
+    position: relative;
+    z-index: 1;
+    background: rgba(245,166,35,0.06);
+    border-top: 1px solid rgba(245,166,35,0.15);
+    border-bottom: 1px solid rgba(245,166,35,0.15);
+    padding: 14px 0;
+    overflow: hidden;
+  }
+
+  .stats-inner {
+    display: flex;
+    gap: 60px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 40px;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .stat-value {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    color: var(--fire-gold);
+    font-weight: 700;
+  }
+  .stat-value.green { color: var(--green); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.loading { color: var(--muted); animation: blink 1.2s step-end infinite; }
+
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* BURN SECTION */
+  .burn-section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 40px;
+    text-align: center;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--fire-orange);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, #f5a623, #e8610a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 60px;
+    letter-spacing: 0.05em;
+  }
+
+  .burn-counter {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(232,97,10,0.07);
+    border: 1px solid rgba(232,97,10,0.3);
+    padding: 50px 80px;
+    position: relative;
+    margin-bottom: 40px;
+    clip-path: polygon(16px 0%, 100% 0%, calc(100% - 16px) 100%, 0% 100%);
+  }
+
+  .burn-counter::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center bottom, rgba(232,97,10,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .burn-fire-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    animation: fire-flicker 0.8s ease-in-out infinite alternate;
+  }
+
+  @keyframes fire-flicker {
+    0% { transform: scale(1) rotate(-2deg); filter: hue-rotate(0deg); }
+    100% { transform: scale(1.08) rotate(2deg); filter: hue-rotate(15deg); }
+  }
+
+  .burn-amount {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2rem, 8vw, 5rem);
+    font-weight: 900;
+    background: linear-gradient(180deg, #ffd580, #f5a623, #e8610a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 8px;
+    min-width: 300px;
+  }
+
+  .burn-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+  }
+
+  .burn-usd {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1rem;
+    color: var(--fire-gold);
+    margin-top: 6px;
+  }
+
+  .burn-refresh {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 12px;
+    letter-spacing: 0.1em;
+  }
+
+  /* TOKENOMICS */
+  .tokenomics {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .toki-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .toki-card {
+    background: rgba(245,166,35,0.04);
+    border: 1px solid rgba(245,166,35,0.12);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .toki-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--fire-orange), transparent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .toki-card:hover { background: rgba(245,166,35,0.07); }
+  .toki-card:hover::before { transform: scaleX(1); }
+
+  .toki-number {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(180deg, #f5a623, #e8610a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .toki-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .toki-desc {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ABOUT */
+  .about {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .about-body {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    color: #b0a090;
+    line-height: 2;
+    margin-bottom: 40px;
+  }
+
+  .about-body strong { color: var(--fire-gold); }
+
+  .feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 50px;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: rgba(245,166,35,0.03);
+    border: 1px solid rgba(245,166,35,0.1);
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .feature-item:hover { background: rgba(245,166,35,0.07); border-color: rgba(245,166,35,0.25); }
+
+  .feature-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+  .feature-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    color: #b0a090;
+    line-height: 1.5;
+  }
+
+  .feature-text strong { color: var(--fire-gold); display: block; font-size: 0.85rem; }
+
+  /* SOCIAL */
+  .social-section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px;
+    text-align: center;
+  }
+
+  .social-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+  }
+
+  .social-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 40px;
+    background: rgba(245,166,35,0.05);
+    border: 1px solid rgba(245,166,35,0.2);
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: all 0.25s;
+    min-width: 220px;
+  }
+  .social-card:hover {
+    background: rgba(245,166,35,0.12);
+    border-color: var(--fire-gold);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(232,97,10,0.3);
+  }
+
+  .social-icon { font-size: 1.8rem; }
+
+  .social-info { text-align: left; }
+  .social-platform { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--fire-gold); text-transform: uppercase; }
+  .social-name { font-size: 0.95rem; color: var(--text); }
+
+  /* DIVIDER */
+  .fire-divider {
+    position: relative;
+    z-index: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,97,10,0.5), rgba(245,166,35,0.7), rgba(232,97,10,0.5), transparent);
+    margin: 0 40px;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    padding: 40px;
+    text-align: center;
+    border-top: 1px solid rgba(245,166,35,0.1);
+  }
+  footer p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+  }
+  footer strong { color: var(--fire-gold); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 14px 20px; }
+    .nav-links { display: none; }
+    .burn-counter { padding: 36px 30px; }
+    .stats-inner { gap: 30px; }
+    .tokenomics, .about { padding: 60px 20px; }
+  }
+
+  .buy-cta-wrap {
+    margin-bottom: 28px;
+  }
+
+  .buy-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 44px;
+    background: linear-gradient(135deg, rgba(232,97,10,0.15), rgba(192,57,43,0.1));
+    border: 1px solid rgba(245,166,35,0.5);
+    text-decoration: none;
+    color: var(--text);
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .buy-cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(245,166,35,0.12), rgba(232,97,10,0.08));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .buy-cta-btn:hover { border-color: var(--fire-gold); transform: translateY(-3px); box-shadow: 0 12px 50px rgba(232,97,10,0.4); }
+  .buy-cta-btn:hover::before { opacity: 1; }
+
+  .buy-cta-icon { font-size: 2.2rem; animation: fire-flicker 0.8s ease-in-out infinite alternate; }
+
+  .buy-cta-text { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+  .buy-cta-sub { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--fire-gold); text-transform: uppercase; }
+  .buy-cta-main { font-family: 'Cinzel Decorative', serif; font-size: clamp(1rem, 3vw, 1.5rem); font-weight: 700; background: linear-gradient(135deg, #ffd580, #f5a623); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .buy-cta-arrow { font-size: 1.8rem; color: var(--fire-gold); margin-left: 8px; transition: transform 0.2s; }
+  .buy-cta-btn:hover .buy-cta-arrow { transform: translate(4px, -4px); }
+
+  /* TRADE SECTION */
+  .trade-section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px;
+    max-width: 1300px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .trade-frame-wrap {
+    position: relative;
+    margin-top: 50px;
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #0d0d0d;
+    box-shadow: 0 0 60px rgba(232,97,10,0.15), 0 0 120px rgba(232,97,10,0.06);
+  }
+
+  .trade-frame-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(245,166,35,0.1);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .trade-frame-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    background: rgba(245,166,35,0.06);
+    border-bottom: 1px solid rgba(245,166,35,0.15);
+  }
+
+  .trade-frame-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--fire-gold);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .live-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .trade-open-link {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1px solid rgba(245,166,35,0.2);
+    border-radius: 2px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .trade-open-link:hover {
+    color: var(--fire-gold);
+    border-color: rgba(245,166,35,0.5);
+    background: rgba(245,166,35,0.06);
+  }
+
+  .trade-iframe {
+    width: 100%;
+    height: 750px;
+    border: none;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .trade-iframe { height: 600px; }
+    .trade-section { padding: 60px 16px; }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<canvas id="fire-canvas"></canvas>
+
+<nav>
+  <div class="nav-logo">$DUSDCro</div>
+  <div class="nav-links">
+    <a href="#trade">Chart & Trade</a>
+    <a href="#tokenomics">Tokenomics</a>
+    <a href="#about">About</a>
+    <a href="#community">Community</a>
+  </div>
+  <div class="nav-social">
+    <a href="https://x.com/dusdcro" target="_blank" title="Twitter/X">𝕏</a>
+    <a href="https://t.me/CrokillsBnb" target="_blank" title="Telegram">✈</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-badge">🔥 Live on Cronos · VVS Finance · Deflationary</div>
+  <h1 class="hero-title">$DUSDCro</h1>
+  <p class="hero-subtitle">Deflationary DUSD on Cronos</p>
+  <p class="hero-tagline">
+    While the <span>Dollar inflates</span>, $DUSDCro <span>Deflates</span>.<br>
+    Every buy. Every sell. Burned forever.
+  </p>
+  <div class="hero-cta">
+    <a class="btn-primary" href="#trade">Buy $DUSDCro</a>
+    <a class="btn-secondary" href="#trade">View Chart</a>
+  </div>
+  <div class="ca-box">
+    <span class="ca-label">CA:</span>
+    <span class="ca-addr">0x7c4271Da5152D09ad97b7927834DAEC90fb881E4</span>
+    <button class="ca-copy" onclick="copyCA()">COPY</button>
+  </div>
+</section>
+
+<!-- LIVE STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <span class="stat-label">Price USD</span>
+      <span class="stat-value loading" id="price-usd">Loading...</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Price WCRO</span>
+      <span class="stat-value loading" id="price-cro">Loading...</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Market Cap</span>
+      <span class="stat-value loading" id="mcap">Loading...</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Liquidity</span>
+      <span class="stat-value loading" id="liquidity">Loading...</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">24h Volume</span>
+      <span class="stat-value loading" id="volume">Loading...</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">24h Change</span>
+      <span class="stat-value loading" id="change24h">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- BURN SECTION -->
+<section class="burn-section" id="burn">
+  <p class="section-label reveal">🔥 Live Burn Tracker</p>
+  <h2 class="section-title reveal">The Eternal Inferno</h2>
+  <p class="section-sub reveal">Every transaction burns. Every second, supply shrinks. Forever.</p>
+
+  <div class="burn-counter reveal">
+    <div class="burn-fire-icon">🔥</div>
+    <div class="burn-amount" id="burn-amount">—</div>
+    <div class="burn-label">TOKENS BURNED FOREVER</div>
+    <div class="burn-usd" id="burn-usd">≈ $—</div>
+    <div class="burn-refresh" id="burn-refresh">Fetching from blockchain...</div>
+  </div>
+
+  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;">
+    Burn address: 0x000000000000000000000000000000000000dEaD
+  </p>
+</section>
+
+<div class="fire-divider"></div>
+
+<!-- TOKENOMICS -->
+<section class="tokenomics" id="tokenomics">
+  <p class="section-label reveal" style="text-align:center">⚙ Mechanics</p>
+  <h2 class="section-title reveal" style="text-align:center">Tokenomics</h2>
+  <div class="toki-grid">
+    <div class="toki-card reveal">
+      <div class="toki-number">10%</div>
+      <div class="toki-title">Total Transaction Tax</div>
+      <div class="toki-desc">Applied to every buy and sell. No exceptions, no escapes.</div>
+    </div>
+    <div class="toki-card reveal" style="transition-delay:0.1s">
+      <div class="toki-number">8%</div>
+      <div class="toki-title">Buy & Burn</div>
+      <div class="toki-desc">Automatically bought and incinerated. Supply decreases with every transaction, forever.</div>
+    </div>
+    <div class="toki-card reveal" style="transition-delay:0.2s">
+      <div class="toki-number">2%</div>
+      <div class="toki-title">Liquidity Pool</div>
+      <div class="toki-desc">Auto-injected into the LP, deepening liquidity and reducing price impact.</div>
+    </div>
+    <div class="toki-card reveal" style="transition-delay:0.3s">
+      <div class="toki-number">0%</div>
+      <div class="toki-title">Team Tokens</div>
+      <div class="toki-desc">No team allocation. No dev wallet. Launched silently on Wolfstreet. Pure community.</div>
+    </div>
+  </div>
+</section>
+
+<div class="fire-divider"></div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <p class="section-label reveal">📜 Origin</p>
+  <h2 class="section-title reveal">Born from the Ashes</h2>
+  <p class="about-body reveal">
+    Born from the <strong>rusty and rough ends of Cronos</strong>, $DUSDCro is a meme coin that chose the opposite path of the Dollar.<br>
+    While the Dollar inflates itself into oblivion, $DUSDCro <strong>deflates on every buy and sell</strong> — burning its own supply into the void, indefinitely.
+  </p>
+
+  <div class="feature-list reveal">
+    <div class="feature-item">
+      <div class="feature-icon">🔥</div>
+      <div class="feature-text">
+        <strong>Automated Burns — Forever</strong>
+        Burns are coded into the contract and run indefinitely. No manual burns, no team control. The fire never stops.
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">💧</div>
+      <div class="feature-text">
+        <strong>Self-Supporting Liquidity</strong>
+        2% of every transaction auto-feeds the LP, ensuring the pool grows stronger over time.
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔍</div>
+      <div class="feature-text">
+        <strong>Open Source — Verify Everything</strong>
+        Contract is live and public for all to audit. Zero hidden mechanics.
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🚀</div>
+      <div class="feature-text">
+        <strong>First Successful Tax Token on Wolfstreet</strong>
+        Launched silently with no presale, no team tokens, no hype — only mechanics.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="fire-divider"></div>
+
+<!-- TRADE / CHART -->
+<section class="trade-section" id="trade">
+  <p class="section-label reveal">📈 Live Chart & Trade</p>
+  <h2 class="section-title reveal">Chart & Buy</h2>
+  <p class="section-sub reveal">Live price action via DexScreener. Trade on cro.trade.</p>
+
+  <!-- BUY CTA -->
+  <div class="buy-cta-wrap reveal">
+    <a class="buy-cta-btn" href="https://cro.trade/0x7c4271da5152d09ad97b7927834daec90fb881e4" target="_blank">
+      <span class="buy-cta-icon">🔥</span>
+      <span class="buy-cta-text">
+        <span class="buy-cta-sub">Swap on Cronos</span>
+        <span class="buy-cta-main">Buy $DUSDCro on cro.trade</span>
+      </span>
+      <span class="buy-cta-arrow">↗</span>
+    </a>
+  </div>
+
+  <!-- DEXSCREENER CHART EMBED -->
+  <div class="trade-frame-wrap reveal">
+    <div class="trade-frame-header">
+      <div class="trade-frame-title">
+        <div class="live-dot"></div>
+        $DUSDCro / WCRO · Live Chart
+      </div>
+      <a class="trade-open-link" href="https://dexscreener.com/cronos/0x7c4271Da5152D09ad97b7927834DAEC90fb881E4" target="_blank">↗ DexScreener</a>
+    </div>
+    <iframe
+      class="trade-iframe"
+      src="https://dexscreener.com/cronos/0x7c4271Da5152D09ad97b7927834DAEC90fb881E4?embed=1&theme=dark&trades=1&info=0"
+      title="$DUSDCro Live Chart"
+      loading="lazy"
+    ></iframe>
+  </div>
+</section>
+
+<div class="fire-divider"></div>
+
+<!-- COMMUNITY -->
+<section class="social-section" id="community">
+  <p class="section-label reveal">🌐 Community</p>
+  <h2 class="section-title reveal">Join the Fire</h2>
+  <p class="section-sub reveal">Where Cronos burns brightest.</p>
+
+  <div class="social-grid reveal">
+    <a class="social-card" href="https://x.com/dusdcro" target="_blank">
+      <div class="social-icon">𝕏</div>
+      <div class="social-info">
+        <div class="social-platform">Twitter / X</div>
+        <div class="social-name">@dusdcro</div>
+      </div>
+    </a>
+    <a class="social-card" href="https://t.me/CrokillsBnb" target="_blank">
+      <div class="social-icon">✈️</div>
+      <div class="social-info">
+        <div class="social-platform">Telegram</div>
+        <div class="social-name">CrokillsBnb</div>
+      </div>
+    </a>
+    <a class="social-card" href="https://dexscreener.com/cronos/0x7c4271Da5152D09ad97b7927834DAEC90fb881E4" target="_blank">
+      <div class="social-icon">📊</div>
+      <div class="social-info">
+        <div class="social-platform">DEX Screener</div>
+        <div class="social-name">Live Chart</div>
+      </div>
+    </a>
+    <a class="social-card" href="https://cro.trade/0x7c4271da5152d09ad97b7927834daec90fb881e4" target="_blank">
+      <div class="social-icon">💱</div>
+      <div class="social-info">
+        <div class="social-platform">cro.trade</div>
+        <div class="social-name">Chart & Buy</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <strong>$DUSDCro</strong> — Deflationary DUSD on Cronos<br>
+    CA: 0x7c4271Da5152D09ad97b7927834DAEC90fb881E4 · Chain: Cronos · DEX: VVS Finance<br><br>
+    <span style="font-size:0.65rem;opacity:0.5;">Crypto assets are highly volatile. This is not financial advice. DYOR. Burns are permanent and irreversible.</span>
+  </p>
+</footer>
+
+<script>
+// ─── FIRE PARTICLE CANVAS ───────────────────────────────────────────────────
+const canvas = document.getElementById('fire-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height + 20;
+    this.size = Math.random() * 4 + 1;
+    this.speedY = Math.random() * 2 + 0.8;
+    this.speedX = (Math.random() - 0.5) * 0.8;
+    this.life = 1;
+    this.decay = Math.random() * 0.008 + 0.003;
+    const t = Math.random();
+    this.r = Math.floor(200 + t * 55);
+    this.g = Math.floor(t * 120);
+    this.b = 0;
+  }
+  update() {
+    this.x += this.speedX + Math.sin(this.y * 0.02) * 0.3;
+    this.y -= this.speedY;
+    this.life -= this.decay;
+    this.size *= 0.998;
+    if (this.life <= 0 || this.y < -20) this.reset();
+  }
+  draw() {
+    ctx.save();
+    ctx.globalAlpha = this.life * 0.6;
+    ctx.fillStyle = `rgb(${this.r},${this.g},${this.b})`;
+    ctx.shadowColor = `rgba(${this.r},${this.g},0,0.5)`;
+    ctx.shadowBlur = 6;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+for (let i = 0; i < 120; i++) {
+  const p = new Particle();
+  p.y = Math.random() * canvas.height;
+  p.life = Math.random();
+  particles.push(p);
+}
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ─── SCROLL REVEAL ───────────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── COPY CA ─────────────────────────────────────────────────────────────────
+function copyCA() {
+  navigator.clipboard.writeText('0x7c4271Da5152D09ad97b7927834DAEC90fb881E4');
+  const btn = document.querySelector('.ca-copy');
+  btn.textContent = '✓ COPIED';
+  setTimeout(() => btn.textContent = 'COPY', 2000);
+}
+
+// ─── FORMAT NUMBERS ──────────────────────────────────────────────────────────
+function fmt(n, digits = 2) {
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + (n / 1e3).toFixed(2) + 'K';
+  return '$' + n.toFixed(digits);
+}
+
+function fmtTokens(n) {
+  if (n >= 1e12) return (n / 1e12).toFixed(3) + 'T';
+  if (n >= 1e9) return (n / 1e9).toFixed(3) + 'B';
+  if (n >= 1e6) return (n / 1e6).toFixed(3) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(2) + 'K';
+  return n.toLocaleString();
+}
+
+// ─── DEXSCREENER LIVE DATA ────────────────────────────────────────────────────
+let currentPrice = 0;
+
+async function fetchDexData() {
+  try {
+    const res = await fetch('https://api.dexscreener.com/latest/dex/tokens/0x7c4271Da5152D09ad97b7927834DAEC90fb881E4');
+    const data = await res.json();
+    const pair = data?.pairs?.[0];
+    if (!pair) return;
+
+    currentPrice = parseFloat(pair.priceUsd) || 0;
+
+    const setVal = (id, val, cls) => {
+      const el = document.getElementById(id);
+      el.textContent = val;
+      el.className = 'stat-value' + (cls ? ' ' + cls : '');
+    };
+
+    setVal('price-usd', '$' + parseFloat(pair.priceUsd).toFixed(10));
+    setVal('price-cro', parseFloat(pair.priceNative).toFixed(7) + ' WCRO');
+    setVal('mcap', pair.marketCap ? fmt(pair.marketCap) : '$—');
+    setVal('liquidity', pair.liquidity?.usd ? fmt(pair.liquidity.usd) : '$—');
+    setVal('volume', pair.volume?.h24 ? fmt(pair.volume.h24) : '$—');
+
+    const ch = pair.priceChange?.h24;
+    if (ch !== undefined) {
+      const sign = ch >= 0 ? '+' : '';
+      setVal('change24h', sign + ch.toFixed(2) + '%', ch >= 0 ? 'green' : 'red');
+    }
+
+    updateBurnUSD();
+  } catch (e) {
+    console.error('DexScreener fetch failed:', e);
+  }
+}
+
+// ─── CRONOS RPC — BURN BALANCE ────────────────────────────────────────────────
+const CRONOS_RPC = 'https://evm.cronos.org';
+const TOKEN_CA   = '0x7c4271Da5152D09ad97b7927834DAEC90fb881E4';
+const DEAD_ADDR  = '0x000000000000000000000000000000000000dEaD';
+let burnedTokens = 0;
+
+async function fetchBurnBalance() {
+  try {
+    // ERC20 balanceOf(address) = keccak256("balanceOf(address)")[0:4] = 0x70a08231
+    const paddedAddr = DEAD_ADDR.slice(2).padStart(64, '0');
+    const data = '0x70a08231' + paddedAddr;
+
+    const res = await fetch(CRONOS_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0', id: 1, method: 'eth_call',
+        params: [{ to: TOKEN_CA, data }, 'latest']
+      })
+    });
+
+    const json = await res.json();
+    if (json.result) {
+      const raw = BigInt(json.result);
+      // Assume 18 decimals
+      burnedTokens = Number(raw) / 1e18;
+
+      document.getElementById('burn-amount').textContent = fmtTokens(burnedTokens);
+      document.getElementById('burn-refresh').textContent =
+        'Last updated: ' + new Date().toLocaleTimeString() + ' · Auto-refreshes every 30s';
+      updateBurnUSD();
+    }
+  } catch (e) {
+    document.getElementById('burn-amount').textContent = 'RPC Error';
+    document.getElementById('burn-refresh').textContent = 'Could not reach Cronos RPC. Try refreshing.';
+    console.error('Burn fetch failed:', e);
+  }
+}
+
+function updateBurnUSD() {
+  if (currentPrice > 0 && burnedTokens > 0) {
+    const usdVal = burnedTokens * currentPrice;
+    document.getElementById('burn-usd').textContent = '≈ ' + fmt(usdVal, 4);
+  }
+}
+
+// ─── INIT & INTERVALS ─────────────────────────────────────────────────────────
+fetchDexData();
+fetchBurnBalance();
+setInterval(fetchDexData, 30000);
+setInterval(fetchBurnBalance, 30000);
+</script>
+</body>
+</html>
