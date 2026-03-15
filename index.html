@@ -1129,7 +1129,7 @@
   <p class="hero-subtitle">Deflationary DUSD on Cronos</p>
 
   <div class="hero-coin-wrap">
-    <img src="dudscro.png" alt="$DUSDCro Coin" class="hero-coin-img">
+    <img src="dudscro.png" alt="$DUSDCro Coin" class="hero-coin-img" onerror="this.style.display='none'">
   </div>
 
   <p class="hero-tagline">
@@ -1144,7 +1144,7 @@
       <div class="hero-burn-data">
         <div class="hero-burn-label">Total Burned Forever</div>
         <div class="hero-burn-number" id="hero-burn-amount">—</div>
-        <div class="hero-burn-token-label">$DUSDCro tokens sent to 0xdead</div>
+        <div class="hero-burn-token-label" id="hero-burn-token-label">$DUSDCro tokens sent to 0xdead</div>
         <div class="hero-burn-usd" id="hero-burn-usd">≈ $— USD value burned</div>
       </div>
       <div class="hero-burn-pulse"></div>
@@ -1624,40 +1624,57 @@ async function fetchDexData() {
 }
 
 // ─── CRONOS RPC — BURN BALANCE ────────────────────────────────────────────────
-const CRONOS_RPC = 'https://evm.cronos.org';
+const CRONOS_RPCS = [
+  'https://evm.cronos.org',
+  'https://cronos-evm-rpc.publicnode.com',
+  'https://rpc.vvs.finance',
+  'https://cronos.blockpi.network/v1/rpc/public',
+];
 const TOKEN_CA   = '0x7c4271Da5152D09ad97b7927834DAEC90fb881E4';
 const DEAD_ADDR  = '0x000000000000000000000000000000000000dEaD';
 let burnedTokens = 0;
 
+async function rpcCall(rpc, data) {
+  const res = await fetch(rpc, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      jsonrpc: '2.0', id: 1, method: 'eth_call',
+      params: [{ to: TOKEN_CA, data }, 'latest']
+    })
+  });
+  const json = await res.json();
+  if (!json.result || json.result === '0x') throw new Error('No result');
+  return json.result;
+}
+
 async function fetchBurnBalance() {
-  try {
-    // ERC20 balanceOf(address) = keccak256("balanceOf(address)")[0:4] = 0x70a08231
-    const paddedAddr = DEAD_ADDR.slice(2).padStart(64, '0');
-    const data = '0x70a08231' + paddedAddr;
+  const paddedAddr = DEAD_ADDR.slice(2).padStart(64, '0');
+  const data = '0x70a08231' + paddedAddr;
 
-    const res = await fetch(CRONOS_RPC, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jsonrpc: '2.0', id: 1, method: 'eth_call',
-        params: [{ to: TOKEN_CA, data }, 'latest']
-      })
-    });
-
-    const json = await res.json();
-    if (json.result) {
-      const raw = BigInt(json.result);
-      // Assume 18 decimals
-      burnedTokens = Number(raw) / 1e18;
-
-      document.getElementById('hero-burn-amount').textContent = fmtTokens(burnedTokens);
-      document.getElementById('burn-refresh').textContent =
-        'Last updated: ' + new Date().toLocaleTimeString() + ' · Auto-refreshes every 30s';
-      updateBurnUSD();
+  let result = null;
+  for (const rpc of CRONOS_RPCS) {
+    try {
+      result = await rpcCall(rpc, data);
+      break;
+    } catch (e) {
+      console.warn('RPC failed, trying next:', rpc, e.message);
     }
-  } catch (e) {
-    document.getElementById('hero-burn-amount').textContent = 'RPC Error';
-    console.error('Burn fetch failed:', e);
+  }
+
+  if (result) {
+    burnedTokens = Number(BigInt(result)) / 1e18;
+    document.getElementById('hero-burn-amount').textContent = fmtTokens(burnedTokens);
+    document.getElementById('hero-burn-token-label').textContent =
+      '$DUSDCro tokens sent to 0xdead · Updated ' + new Date().toLocaleTimeString();
+    updateBurnUSD();
+  } else {
+    // All RPCs failed — show last known or loading state
+    if (burnedTokens === 0) {
+      document.getElementById('hero-burn-amount').textContent = '...';
+      document.getElementById('hero-burn-token-label').textContent = 'Fetching from blockchain...';
+    }
+    console.error('All Cronos RPCs failed');
   }
 }
 
