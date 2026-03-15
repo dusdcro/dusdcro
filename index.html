@@ -1192,26 +1192,6 @@
   </div>
 </div>
 
-<!-- BURN SECTION -->
-<section class="burn-section" id="burn">
-  <p class="section-label reveal">🔥 Live Burn Tracker</p>
-  <h2 class="section-title reveal">The Eternal Inferno</h2>
-  <p class="section-sub reveal">Every transaction burns. Every second, supply shrinks. Forever.</p>
-
-  <div class="burn-counter reveal">
-    <div class="burn-fire-icon">🔥</div>
-    <div class="burn-amount" id="burn-amount">—</div>
-    <div class="burn-label">TOKENS BURNED FOREVER</div>
-    <div class="burn-usd" id="burn-usd">≈ $—</div>
-    <div class="burn-refresh" id="burn-refresh">Fetching from blockchain...</div>
-  </div>
-
-  <p style="font-family:'Share Tech Mono',monospace;font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;">
-    Burn address: 0x000000000000000000000000000000000000dEaD
-  </p>
-</section>
-
-<div class="fire-divider"></div>
 
 <!-- TOKENOMICS -->
 <section class="tokenomics" id="tokenomics">
@@ -1670,16 +1650,13 @@ async function fetchBurnBalance() {
       // Assume 18 decimals
       burnedTokens = Number(raw) / 1e18;
 
-      document.getElementById('burn-amount').textContent = fmtTokens(burnedTokens);
+      document.getElementById('hero-burn-amount').textContent = fmtTokens(burnedTokens);
       document.getElementById('burn-refresh').textContent =
         'Last updated: ' + new Date().toLocaleTimeString() + ' · Auto-refreshes every 30s';
-      // also update hero burn
-      document.getElementById('hero-burn-amount').textContent = fmtTokens(burnedTokens);
       updateBurnUSD();
     }
   } catch (e) {
-    document.getElementById('burn-amount').textContent = 'RPC Error';
-    document.getElementById('burn-refresh').textContent = 'Could not reach Cronos RPC. Try refreshing.';
+    document.getElementById('hero-burn-amount').textContent = 'RPC Error';
     console.error('Burn fetch failed:', e);
   }
 }
@@ -1687,7 +1664,6 @@ async function fetchBurnBalance() {
 function updateBurnUSD() {
   if (currentPrice > 0 && burnedTokens > 0) {
     const usdVal = burnedTokens * currentPrice;
-    document.getElementById('burn-usd').textContent = '≈ ' + fmt(usdVal, 4);
     document.getElementById('hero-burn-usd').textContent = '≈ ' + fmt(usdVal, 4) + ' USD burned';
   }
 }
