@@ -833,6 +833,256 @@
     .trade-section { padding: 60px 16px; }
   }
 
+  /* MANIFESTO QUOTE */
+  .manifesto-quote {
+    margin: 28px auto 32px;
+    padding: 24px 40px;
+    border-left: 3px solid var(--fire-orange);
+    border-right: 3px solid var(--fire-orange);
+    background: rgba(232,97,10,0.06);
+    max-width: 600px;
+  }
+  .manifesto-line {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--fire-gold);
+    font-style: italic;
+    letter-spacing: 0.05em;
+  }
+
+  /* ROADMAP */
+  .roadmap-section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 3px;
+    margin-top: 60px;
+    text-align: left;
+  }
+
+  .roadmap-card {
+    background: rgba(245,166,35,0.04);
+    border: 1px solid rgba(245,166,35,0.13);
+    padding: 36px 28px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: all 0.3s;
+  }
+  .roadmap-card.current {
+    border-color: rgba(232,97,10,0.5);
+    background: rgba(232,97,10,0.08);
+  }
+  .roadmap-card.current::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--fire-orange), var(--fire-gold), var(--fire-orange), transparent);
+  }
+  .roadmap-card:hover { background: rgba(245,166,35,0.08); transform: translateY(-3px); }
+
+  .roadmap-phase-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    border-radius: 2px;
+    background: rgba(232,97,10,0.2);
+    color: var(--fire-gold);
+    border: 1px solid rgba(232,97,10,0.4);
+    width: fit-content;
+  }
+  .roadmap-phase-badge.locked { background: rgba(255,255,255,0.04); color: var(--muted); border-color: rgba(255,255,255,0.1); }
+  .roadmap-phase-badge.soon { background: rgba(0,230,118,0.08); color: var(--green); border-color: rgba(0,230,118,0.3); }
+
+  .roadmap-phase-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .roadmap-tax-display { display: flex; align-items: baseline; gap: 8px; }
+  .tax-big {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 3.2rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffd580, #f5a623, #e8610a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .tax-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .roadmap-breakdown { display: flex; flex-direction: column; gap: 8px; }
+  .tax-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: #b0a090;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .tax-fire { color: var(--fire-orange); font-weight: 700; }
+  .tax-drop { color: #4fc3f7; font-weight: 700; }
+  .tax-proj { color: var(--muted); font-weight: 700; }
+
+  .roadmap-unlock {
+    margin-top: 4px;
+    padding: 14px 16px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(245,166,35,0.1);
+    border-radius: 2px;
+  }
+  .unlock-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .unlock-condition {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--fire-gold);
+    font-weight: 700;
+    margin: 4px 0;
+  }
+  .unlock-or {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-align: center;
+    margin: 4px 0;
+  }
+  .unlock-note {
+    margin-top: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--green);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* STAKING CARD */
+  .staking-card { justify-content: center; align-items: center; text-align: center; min-height: 320px; }
+  .staking-teaser { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .staking-icon { font-size: 3rem; }
+  .staking-teaser p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem;
+    color: #b0a090;
+    line-height: 1.7;
+    max-width: 200px;
+  }
+  .staking-teaser strong { color: var(--fire-gold); }
+  .staking-dots { display: flex; gap: 8px; margin-top: 8px; }
+  .staking-dots span {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--fire-gold);
+    opacity: 0.3;
+    animation: dot-pulse 1.4s ease-in-out infinite;
+  }
+  .staking-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .staking-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot-pulse { 0%,80%,100%{opacity:0.2;transform:scale(0.8)} 40%{opacity:1;transform:scale(1.2)} }
+
+  /* WALLETS */
+  .wallets-section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .wallet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 3px;
+    margin-top: 50px;
+  }
+
+  .wallet-card {
+    display: flex;
+    gap: 20px;
+    padding: 32px 28px;
+    background: rgba(245,166,35,0.04);
+    border: 1px solid rgba(245,166,35,0.14);
+    text-align: left;
+    transition: all 0.25s;
+  }
+  .wallet-card:hover { background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.28); }
+
+  .wallet-icon { font-size: 2.2rem; flex-shrink: 0; }
+
+  .wallet-info { display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+
+  .wallet-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--fire-gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .wallet-desc {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .wallet-addr {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: #c8b89a;
+    word-break: break-all;
+    background: rgba(0,0,0,0.3);
+    padding: 8px 10px;
+    border-radius: 2px;
+    border: 1px solid rgba(245,166,35,0.1);
+  }
+
+  .wallet-copy {
+    background: none;
+    border: 1px solid rgba(245,166,35,0.3);
+    color: var(--fire-gold);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    padding: 5px 14px;
+    cursor: pointer;
+    border-radius: 2px;
+    width: fit-content;
+    transition: all 0.2s;
+  }
+  .wallet-copy:hover { background: rgba(245,166,35,0.12); border-color: var(--fire-gold); }
+
   /* SCROLL REVEAL */
   .reveal {
     opacity: 0;
@@ -854,6 +1104,7 @@
   <div class="nav-links">
     <a href="#trade">Chart & Trade</a>
     <a href="#tokenomics">Tokenomics</a>
+    <a href="#roadmap">Roadmap</a>
     <a href="#about">About</a>
     <a href="#community">Community</a>
   </div>
@@ -998,48 +1249,172 @@
 
 <div class="fire-divider"></div>
 
-<!-- ABOUT -->
+<!-- ABOUT / MANIFESTO -->
 <section class="about" id="about">
-  <p class="section-label reveal">📜 Origin</p>
-  <h2 class="section-title reveal">Born from the Ashes</h2>
+  <p class="section-label reveal">📜 The Philosophy</p>
+  <h2 class="section-title reveal">Simple as Water</h2>
   <p class="about-body reveal">
-    Born from the <strong>rusty and rough ends of Cronos</strong>, $DUSDCro is a meme coin that chose the opposite path of the Dollar.<br>
-    While the Dollar inflates itself into oblivion, $DUSDCro <strong>deflates on every buy and sell</strong> — burning its own supply into the void, indefinitely.
+    There is a catch to everything complicated.<br>
+    At <strong>$DUSDCro</strong>, everything is <strong>simple as a glass of water</strong>.
+  </p>
+
+  <div class="manifesto-quote reveal">
+    <div class="manifesto-line">"A meme with absolute purpose."</div>
+  </div>
+
+  <p class="about-body reveal">
+    Deflationary at every movement and <strong>self-sustaining</strong>. Every transaction reduces our supply and banks into our LP.<br>
+    While the world debates inflation, we burn. While the dollar dilutes, we deflate.<br><br>
+    The <strong>true antidote to inflation</strong> — built on Cronos, running forever.
   </p>
 
   <div class="feature-list reveal">
     <div class="feature-item">
       <div class="feature-icon">🔥</div>
       <div class="feature-text">
-        <strong>Automated Burns — Forever</strong>
-        Burns are coded into the contract and run indefinitely. No manual burns, no team control. The fire never stops.
+        <strong>Deflationary at Every Movement</strong>
+        Every buy, every sell — supply shrinks. Automated burns coded into the contract, running indefinitely with zero human control.
       </div>
     </div>
     <div class="feature-item">
       <div class="feature-icon">💧</div>
       <div class="feature-text">
-        <strong>Self-Supporting Liquidity</strong>
-        2% of every transaction auto-feeds the LP, ensuring the pool grows stronger over time.
+        <strong>Self-Sustaining Liquidity</strong>
+        A portion of every transaction auto-injects into the LP. The pool feeds itself. No reliance on anyone.
       </div>
     </div>
     <div class="feature-item">
-      <div class="feature-icon">🔍</div>
+      <div class="feature-icon">🎯</div>
       <div class="feature-text">
-        <strong>Open Source — Verify Everything</strong>
-        Contract is live and public for all to audit. Zero hidden mechanics.
+        <strong>Milestone-Driven Roadmap — Always</strong>
+        No fluff. No vague promises. Every phase is unlocked by on-chain milestones. This will never change.
       </div>
     </div>
     <div class="feature-item">
       <div class="feature-icon">🚀</div>
       <div class="feature-text">
-        <strong>First Successful Tax Token on Wolfstreet</strong>
-        Launched silently with no presale, no team tokens, no hype — only mechanics.
+        <strong>No Team Tokens. No Presale. No Noise.</strong>
+        Launched silently on Wolfstreet — the first successful tax token on Cronos. Pure mechanics, pure community.
       </div>
     </div>
   </div>
 </section>
 
 <div class="fire-divider"></div>
+
+<!-- ROADMAP -->
+<section class="roadmap-section" id="roadmap">
+  <p class="section-label reveal">🗺 Milestone Roadmap</p>
+  <h2 class="section-title reveal">The Path Forward</h2>
+  <p class="section-sub reveal">Strictly milestone-driven. This will never change.</p>
+
+  <div class="roadmap-grid">
+
+    <!-- CURRENT -->
+    <div class="roadmap-card current reveal">
+      <div class="roadmap-phase-badge">NOW LIVE</div>
+      <div class="roadmap-phase-title">Phase 1 — Launch</div>
+      <div class="roadmap-tax-display">
+        <div class="tax-big">10%</div>
+        <div class="tax-sub">Total Tax</div>
+      </div>
+      <div class="roadmap-breakdown">
+        <div class="tax-row"><span class="tax-fire">🔥 8%</span><span>Buy &amp; Burn</span></div>
+        <div class="tax-row"><span class="tax-drop">💧 2%</span><span>Liquidity Pool</span></div>
+      </div>
+      <div class="roadmap-unlock">
+        <div class="unlock-label">Current Phase — Active</div>
+      </div>
+    </div>
+
+    <!-- MILESTONE 1 -->
+    <div class="roadmap-card reveal" style="transition-delay:0.15s">
+      <div class="roadmap-phase-badge locked">MILESTONE 1</div>
+      <div class="roadmap-phase-title">Phase 2 — Deflation Deepens</div>
+      <div class="roadmap-tax-display">
+        <div class="tax-big">8%</div>
+        <div class="tax-sub">Total Tax</div>
+      </div>
+      <div class="roadmap-breakdown">
+        <div class="tax-row"><span class="tax-fire">🔥 5%</span><span>Buy &amp; Burn</span></div>
+        <div class="tax-row"><span class="tax-drop">💧 2%</span><span>Liquidity Pool</span></div>
+        <div class="tax-row"><span class="tax-proj">⚙ 1%</span><span>Project</span></div>
+      </div>
+      <div class="roadmap-unlock">
+        <div class="unlock-label">Unlocks when either:</div>
+        <div class="unlock-condition">🔥 250M tokens burned</div>
+        <div class="unlock-or">— OR —</div>
+        <div class="unlock-condition">📈 $50K Market Cap</div>
+      </div>
+    </div>
+
+    <!-- MILESTONE 2 -->
+    <div class="roadmap-card reveal" style="transition-delay:0.3s">
+      <div class="roadmap-phase-badge locked">MILESTONE 2</div>
+      <div class="roadmap-phase-title">Phase 3 — Until the World Ends</div>
+      <div class="roadmap-tax-display">
+        <div class="tax-big">5%</div>
+        <div class="tax-sub">Tax — Forever</div>
+      </div>
+      <div class="roadmap-breakdown">
+        <div class="tax-row"><span class="tax-fire">🔥 3%</span><span>Buy &amp; Burn</span></div>
+        <div class="tax-row"><span class="tax-drop">💧 1%</span><span>Liquidity Pool</span></div>
+        <div class="tax-row"><span class="tax-proj">⚙ 1%</span><span>Project</span></div>
+      </div>
+      <div class="roadmap-unlock">
+        <div class="unlock-label">Unlocks when either:</div>
+        <div class="unlock-condition">🔥 300M tokens burned</div>
+        <div class="unlock-or">— OR —</div>
+        <div class="unlock-condition">📈 $200K Market Cap</div>
+        <div class="unlock-note">This tax structure runs INDEFINITELY</div>
+      </div>
+    </div>
+
+    <!-- STAKING -->
+    <div class="roadmap-card staking-card reveal" style="transition-delay:0.45s">
+      <div class="roadmap-phase-badge soon">COMING SOON</div>
+      <div class="roadmap-phase-title">Staking</div>
+      <div class="staking-teaser">
+        <div class="staking-icon">🏦</div>
+        <p>Very <strong>interesting</strong> staking options will be available for $DUSDCro holders soon.</p>
+        <div class="staking-dots">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="fire-divider"></div>
+
+<!-- WALLETS -->
+<section class="wallets-section" id="wallets">
+  <p class="section-label reveal">🔐 Contract Wallets</p>
+  <h2 class="section-title reveal">Fully Transparent</h2>
+  <p class="section-sub reveal">Every wallet is public. Verify everything on-chain.</p>
+
+  <div class="wallet-grid reveal">
+    <div class="wallet-card">
+      <div class="wallet-icon">🔥</div>
+      <div class="wallet-info">
+        <div class="wallet-title">Burn Wallet</div>
+        <div class="wallet-desc">All burned tokens are sent here permanently</div>
+        <div class="wallet-addr" id="burn-wallet-addr">0x21C17121764678D94f0e1F7f61b1aDb24fCe4324</div>
+        <button class="wallet-copy" onclick="copyWallet('0x21C17121764678D94f0e1F7f61b1aDb24fCe4324', this)">COPY</button>
+      </div>
+    </div>
+    <div class="wallet-card">
+      <div class="wallet-icon">💧</div>
+      <div class="wallet-info">
+        <div class="wallet-title">LP Wallet</div>
+        <div class="wallet-desc">Liquidity pool funds auto-deposited here</div>
+        <div class="wallet-addr">0xCcd358567a183edd4b68d3701AeA8dc38c625f74</div>
+        <button class="wallet-copy" onclick="copyWallet('0xCcd358567a183edd4b68d3701AeA8dc38c625f74', this)">COPY</button>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- TRADE / CHART -->
 <section class="trade-section" id="trade">
@@ -1109,7 +1484,7 @@
       </div>
       <div class="social-info">
         <div class="social-platform">Telegram</div>
-        <div class="social-name">DUSDCro</div>
+        <div class="social-name">DusdcroCRNB</div>
       </div>
     </a>
     <a class="social-card" href="https://dexscreener.com/cronos/0x7c4271Da5152D09ad97b7927834DAEC90fb881E4" target="_blank">
@@ -1212,6 +1587,12 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 function copyCA() {
   navigator.clipboard.writeText('0x7c4271Da5152D09ad97b7927834DAEC90fb881E4');
   const btn = document.querySelector('.ca-copy');
+  btn.textContent = '✓ COPIED';
+  setTimeout(() => btn.textContent = 'COPY', 2000);
+}
+
+function copyWallet(addr, btn) {
+  navigator.clipboard.writeText(addr);
   btn.textContent = '✓ COPIED';
   setTimeout(() => btn.textContent = 'COPY', 2000);
 }
