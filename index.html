@@ -850,6 +850,82 @@
     letter-spacing: 0.05em;
   }
 
+  .roadmap-card.complete {
+    opacity: 0.6;
+    border-color: rgba(0,230,118,0.15);
+    background: rgba(0,230,118,0.02);
+  }
+  .roadmap-card.complete:hover { opacity: 0.85; }
+
+  .roadmap-phase-badge.done {
+    background: rgba(0,230,118,0.1);
+    color: var(--green);
+    border-color: rgba(0,230,118,0.3);
+  }
+
+  .roadmap-card.phase-current {
+    border-color: var(--fire-gold) !important;
+    background: rgba(245,166,35,0.08) !important;
+    box-shadow: 0 0 40px rgba(245,166,35,0.12), 0 0 80px rgba(232,97,10,0.08);
+  }
+
+  .roadmap-phase-current-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--fire-orange), var(--fire-gold), var(--fire-orange), transparent);
+    animation: bar-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes bar-pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; box-shadow: 0 0 12px var(--fire-gold); }
+  }
+
+  /* C.C. LAUNCH BOX */
+  .cc-launch-box {
+    margin-top: 8px;
+    padding: 16px 18px;
+    background: linear-gradient(135deg, rgba(245,166,35,0.1), rgba(232,97,10,0.06));
+    border: 1px solid rgba(245,166,35,0.35);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cc-launch-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--fire-gold), transparent);
+  }
+  .cc-launch-header { margin-bottom: 8px; }
+  .cc-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--fire-gold);
+    text-transform: uppercase;
+  }
+  .cc-launch-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffd580, #f5a623);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .cc-launch-desc {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.74rem;
+    color: #b0a090;
+    line-height: 1.6;
+  }
+  .cc-launch-desc strong { color: var(--fire-gold); }
+
   /* ROADMAP */
   .roadmap-section {
     position: relative;
@@ -1197,19 +1273,20 @@
 <section class="tokenomics" id="tokenomics">
   <p class="section-label reveal" style="text-align:center">⚙ Mechanics</p>
   <h2 class="section-title reveal" style="text-align:center">Tokenomics</h2>
+  <p class="section-sub reveal" style="text-align:center">Currently in <strong style="color:var(--fire-gold)">Phase 3</strong> — 5% tax · 3% burn · 1% LP · 1% project</p>
   <div class="toki-grid">
     <div class="toki-card reveal">
-      <div class="toki-number">8%</div>
+      <div class="toki-number">5%</div>
       <div class="toki-title">Total Transaction Tax</div>
       <div class="toki-desc">Applied to every buy and sell. No exceptions, no escapes.</div>
     </div>
     <div class="toki-card reveal" style="transition-delay:0.1s">
-      <div class="toki-number">5%</div>
+      <div class="toki-number">3%</div>
       <div class="toki-title">Buy & Burn</div>
       <div class="toki-desc">Automatically bought and incinerated. Supply decreases with every transaction, forever.</div>
     </div>
     <div class="toki-card reveal" style="transition-delay:0.2s">
-      <div class="toki-number">2%</div>
+      <div class="toki-number">1%</div>
       <div class="toki-title">Liquidity Pool</div>
       <div class="toki-desc">Auto-injected into the LP, deepening liquidity and reducing price impact.</div>
     </div>
@@ -1284,12 +1361,12 @@
 
   <div class="roadmap-grid">
 
-    <!-- CURRENT -->
-    <div class="roadmap-card current reveal">
-      <div class="roadmap-phase-badge">NOW LIVE</div>
+    <!-- PHASE 1 - COMPLETE -->
+    <div class="roadmap-card complete reveal">
+      <div class="roadmap-phase-badge done">✓ COMPLETE</div>
       <div class="roadmap-phase-title">Phase 1 — Launch</div>
       <div class="roadmap-tax-display">
-        <div class="tax-big">10%</div>
+        <div class="tax-big" style="opacity:0.5">10%</div>
         <div class="tax-sub">Total Tax</div>
       </div>
       <div class="roadmap-breakdown">
@@ -1297,16 +1374,16 @@
         <div class="tax-row"><span class="tax-drop">💧 2%</span><span>Liquidity Pool</span></div>
       </div>
       <div class="roadmap-unlock">
-        <div class="unlock-label">Current Phase — Active</div>
+        <div class="unlock-label" style="color:var(--green)">✓ Milestone reached</div>
       </div>
     </div>
 
-    <!-- MILESTONE 1 -->
-    <div class="roadmap-card reveal" style="transition-delay:0.15s">
-      <div class="roadmap-phase-badge locked">MILESTONE 1</div>
+    <!-- PHASE 2 - COMPLETE -->
+    <div class="roadmap-card complete reveal" style="transition-delay:0.1s">
+      <div class="roadmap-phase-badge done">✓ COMPLETE</div>
       <div class="roadmap-phase-title">Phase 2 — Deflation Deepens</div>
       <div class="roadmap-tax-display">
-        <div class="tax-big">8%</div>
+        <div class="tax-big" style="opacity:0.5">8%</div>
         <div class="tax-sub">Total Tax</div>
       </div>
       <div class="roadmap-breakdown">
@@ -1315,16 +1392,14 @@
         <div class="tax-row"><span class="tax-proj">⚙ 1%</span><span>Project</span></div>
       </div>
       <div class="roadmap-unlock">
-        <div class="unlock-label">Unlocks when either:</div>
-        <div class="unlock-condition">🔥 250M tokens burned</div>
-        <div class="unlock-or">— OR —</div>
-        <div class="unlock-condition">📈 $50K Market Cap</div>
+        <div class="unlock-condition" style="font-size:0.72rem;color:var(--green)">✓ 250M burned / $50K MC</div>
       </div>
     </div>
 
-    <!-- MILESTONE 2 -->
-    <div class="roadmap-card reveal" style="transition-delay:0.3s">
-      <div class="roadmap-phase-badge locked">MILESTONE 2</div>
+    <!-- PHASE 3 - CURRENT ★ -->
+    <div class="roadmap-card current phase-current reveal" style="transition-delay:0.2s">
+      <div class="roadmap-phase-current-bar"></div>
+      <div class="roadmap-phase-badge">🔥 YOU ARE HERE</div>
       <div class="roadmap-phase-title">Phase 3 — Until the World Ends</div>
       <div class="roadmap-tax-display">
         <div class="tax-big">5%</div>
@@ -1336,16 +1411,56 @@
         <div class="tax-row"><span class="tax-proj">⚙ 1%</span><span>Project</span></div>
       </div>
       <div class="roadmap-unlock">
+        <div class="unlock-condition" style="font-size:0.72rem;color:var(--green)">✓ 300M burned / $200K MC</div>
+        <div class="unlock-note">ACTIVE — Running indefinitely</div>
+      </div>
+      <!-- C.C. PROJECT LAUNCH -->
+      <div class="cc-launch-box">
+        <div class="cc-launch-header">
+          <span class="cc-badge">🚀 ECOSYSTEM LAUNCH</span>
+        </div>
+        <div class="cc-launch-title">C.C.</div>
+        <div class="cc-launch-desc">The first project launched under the <strong>$DUSDCro ecosystem</strong>. A new chapter begins.</div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="roadmap-card reveal" style="transition-delay:0.3s">
+      <div class="roadmap-phase-badge locked">PHASE 4</div>
+      <div class="roadmap-phase-title">Final Burn Phase</div>
+      <div class="roadmap-tax-display">
+        <div class="tax-big">3%</div>
+        <div class="tax-sub">Tax — Forever</div>
+      </div>
+      <div class="roadmap-breakdown">
+        <div class="tax-row"><span class="tax-fire">🔥 2%</span><span>Buy &amp; Burn</span></div>
+        <div class="tax-row"><span class="tax-drop">💧 0.5%</span><span>Liquidity Pool</span></div>
+        <div class="tax-row"><span class="tax-proj">⚙ 0.5%</span><span>Project</span></div>
+      </div>
+      <div class="roadmap-unlock">
         <div class="unlock-label">Unlocks when either:</div>
-        <div class="unlock-condition">🔥 300M tokens burned</div>
+        <div class="unlock-condition">🔥 50% supply burned</div>
         <div class="unlock-or">— OR —</div>
-        <div class="unlock-condition">📈 $200K Market Cap</div>
-        <div class="unlock-note">This tax structure runs INDEFINITELY</div>
+        <div class="unlock-condition">📈 $1M Market Cap</div>
+        <div class="unlock-note">This burn rate stays until world ends</div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="roadmap-card staking-card reveal" style="transition-delay:0.45s">
+      <div class="roadmap-phase-badge locked">PHASE 5</div>
+      <div class="roadmap-phase-title">TBD</div>
+      <div class="staking-teaser">
+        <div class="staking-icon">🌌</div>
+        <p>The next chapter of $DUSDCro will be revealed when the time is right.</p>
+        <div class="staking-dots">
+          <span></span><span></span><span></span>
+        </div>
       </div>
     </div>
 
     <!-- STAKING -->
-    <div class="roadmap-card staking-card reveal" style="transition-delay:0.45s">
+    <div class="roadmap-card staking-card reveal" style="transition-delay:0.55s">
       <div class="roadmap-phase-badge soon">COMING SOON</div>
       <div class="roadmap-phase-title">Staking</div>
       <div class="staking-teaser">
